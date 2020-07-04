@@ -1,0 +1,13 @@
+
+<body>
+    <table class="table table-striped">
+
+        {% for key in ["doc_id", "step_id", "order", "tools_annotation", "objects_annotation", "with_number", "description"] %}
+            <tr>
+                <td><b>{{ key|e|capitalize }}</b></td>
+                <td><h4>{{ data[key]|e }}</h4></td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</body>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+
+<body style="background-color:silver">
+<b>
+    <H2>
+        MyFixit Annotator
+    </H2>
+    <H4>Please Select a Category:</H4>
+    <form method="POST" action="{{ url_for('cat_select') }}">
+
+        {% for row in cats|batch(4) %}
+            <div class="row">
+                {% for c in row %}
+                    <div class="btn-group">
+                        <button type="submit" name="cat" value="{{ c.Category }}"><img
+                                src="{{ url_for('static', filename='images/categories/' + c.Category) }}" height="300"/>
+                            <br><b>{{ c.Category }}</b>
+                        </button>
+                        <center>
+                            Number of Manuals : {{ c.number }}
+                            <br> Average Number of Steps per Manual : {{ c.Steps }}
+                            <br> Total Steps With Unique Text: {{ c.uniqsteps }}<br></center>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <br>Or write the category name here:
+        <input type="text" name="cat">
+        <br><input type="checkbox" name="deep" value="1"> Use supervised sequence labeling for object/verb extraction
+        <br><input type="checkbox" name="images" value="1"> Only download images
+        <br><input type="submit" value="Submit">
+    </form>
+</b>
+
+</body>
+
+</html>

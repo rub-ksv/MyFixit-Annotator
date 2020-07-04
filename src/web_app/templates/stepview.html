@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ data.name }} {% endblock %}
+
+{% block content %}
+
+    <div class="container" style="width:100%;">
+
+        <nav class="navbar">
+            <div class="navbar-header">
+
+                <span class="navbar-brand">{{ config.APPNAME }}</span>
+            </div>
+            <form class="navbar-form navbar-left" role="search" name="goto" action="/goto" method="POST">
+                <div class="form-group">
+                    <label>
+                        <input type="text" name="index" class="form-control" placeholder="Go to index">
+                    </label>
+                </div>
+                <button type="Go" class="btn btn-default">Go</button>
+            </form>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Change Device Category</a></li>
+                <li><a href="/{{ pager.prev }}">&larr;</a></li>
+                <li><a href="/{{ pager.next }}">&rarr;</a></li>
+                {% include 'links.html' %}
+            </ul>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/steps/'+data.step_id) }}"
+                     class="img-responsive center-block" alt="">
+            </div>
+            <div class="col-md-6">
+                <h2>{{ data.name }}</h2>
+                {% include 'table.html' %}
+            </div>
+        </div>
+        <br/>
+    </div>
+    <div class="row" style="border:solid ; background-color:lightgray">
+    <p align="center">
+        <input type="button" id="uncheck-all" value="UncheckAll"/>
+        <input type="button" id="check-all" value="CheckAll"/></p>
+    <form method="POST" action="{{ url_for('submitting') }}">
+        <div class="col-md-6">
+            <b>Word-Level Verb:</b>
+            <br>Please select the detaching verb(s):
+            {% for v , checked in data.verb %}
+                <h4><input type="checkbox" name="verb" value="{{ v }}" {{ checked }}> {{ v }} <br></h4>
+            {% endfor %}
+            AND/OR enter them manually in this box (write the verb phrases as above (VP > span) and separate them
+            with comma):<br>
+            <input type="text" name="verb"><br>
+            <br><b>Verb index:</b>
+            <br>If the number of selected verbs is not equal to the selected objects, you have to index each verb
+            with corresponding object(s) (separate objects with '&' ).<br> For example if the first selected verb is
+            related to the first and second selected objects and second verb is related to third object, write 1 & 2
+            , 3 <br>
+            <input type="text" name="indexes"><br>
+        </div>
+        <div class="col-md-6">
+            <b>Word-Level object:</b>
+            <br>Please select detached object(s):<br>
+            {% for o , checked in data.objects %}
+                <h4><input type="checkbox" name="word_objs" value="{{ o }}" {{ checked }}> {{ o }} <br></h4>
+            {% endfor %}
+            <br> AND/OR enter them manually in this box (write the noun phrases as above (NP > span) and separate
+            them
+            with comma) :<br>
+            <input type="text" name="word_objs"><br>
+            <br><b>Step-Level object:</b>
+            <br>If you have to add extra words to the objects' name, write the complete names without span and
+            separate them with comma :<br>
+            <input type="text" name="step_objs" value="{{ data.stepobj }}"><br>
+            <div class="col-md-6" style="text-align:center">
+                <input type="checkbox" name="use_olds" value="1"> Dont use old annotation
+                <h1><input type="submit"
+                                  style="font-size: larger; color: black; background-color: cornflowerblue; border: 3pt ridge lightgrey"
+                                  value="Submit" class="button float-center"></h1>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <br><br><b>Tools:</b>
+            <br>Please select the used tool:<br>
+            {% for t , checked in data.toolbox %}
+                <h4><input type="checkbox" name="tools" value="{{ t.name }}" {{ checked }}> {{ t.name }} <img
+                        src="{{ url_for('static', filename='images/tools/' + t.name) }}" height="35"></h4>
+            {% endfor %}
+            AND/OR enter them manually in this box and separate them with comma :<br>
+            <input type="text" name="tools"><br>
+        </div>
+
+    </form>
+
+{% endblock %}
+</div>

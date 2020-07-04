@@ -1,0 +1,25 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="error-template" style="padding:40px 15px; text-align: center;">
+                <h1>Oops!</h1>
+                <h2>404 Not Found</h2>
+                <div class="error-details">
+                    Sorry, Requested page not found!<br>
+                    <br> Probably the tables of processed data is not loaded properly. <br>
+                    Please select the device category again using the link below, then continue annotating by entering
+                    the index of the page you were.
+                    <a href="/"> Select Category</a>
+
+                    <br> if you continue seeing this error, probably the produced table is empty or broken.
+                    Delete the table of your selected category and method in /src/web_app/static/tables,
+                    and try to build or download the table again.
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
