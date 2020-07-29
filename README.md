@@ -2,7 +2,7 @@
             
 MyFixit Annotator is a web-based app for the annotation of steps in [MyFixit dataset](https://github.com/rub-ksv/MyFixit-Dataset) with the required tool, disassembled parts, and removal verbs.              
 
-The annotation guideline and the details of the dataset are introduced in this paper (link to the paper):            
+The annotation guideline and the details of the dataset are introduced in this [paper](http://www.lrec-conf.org/proceedings/lrec2020/pdf/2020.lrec-1.260.pdf).          
             
 The app is optimized to speed up the annotation by the following means:            
             
@@ -90,3 +90,15 @@ After pressing the submit bottom, the app checks the inputs to make sure all fie
 [Reduce, reuse, reboot: why electronic recycling must up its game](https://www.theguardian.com/environment/2017/nov/20/electronic-recycling-e-waste-2017-gadgets)  
 [Why repairing electronics will fix our environment?](https://medium.com/if-you-want-to/repair-electronics-to-fix-our-environment-12f693d55754)
 
+# Cite
+If you found our work useful, please cite:
+
+    @InProceedings{nabizadeh-kolossa-heckmann:2020:LREC,
+      author    = {Nabizadeh, Nima  and  Kolossa, Dorothea  and  Heckmann, Martin},
+      title     = {MyFixit: An Annotated Dataset, Annotation Tool, and Baseline Methods for Information Extraction from Repair Manuals},
+      booktitle      = {Proceedings of The 12th Language Resources and Evaluation Conference},
+      month          = {May},
+      year           = {2020},
+      address        = {Marseille, France},
+      publisher      = {European Language Resources Association},
+      pages     = {2120--2128}}
