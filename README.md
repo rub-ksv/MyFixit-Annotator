@@ -2,7 +2,7 @@
             
 MyFixit Annotator is a web-based app for the annotation of steps in [MyFixit dataset](https://github.com/rub-ksv/MyFixit-Dataset) with the required tool, disassembled parts, and removal verbs.              
 
-The annotation guideline and the details of the dataset are introduced in [our LREC paper.](http://www.lrec-conf.org/proceedings/lrec2020/pdf/2020.lrec-1.260.pdf).          
+The annotation guideline and the details of the dataset are introduced in [our LREC paper.](http://www.lrec-conf.org/proceedings/lrec2020/pdf/2020.lrec-1.260.pdf)          
             
 The app is optimized to speed up the annotation by the following means:            
             
