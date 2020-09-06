@@ -3,11 +3,12 @@
 #
 # Automatic extraction of objects
 import logging
-
+import random
 from flask import Flask, render_template, request, redirect
 from src.part_extraction.autoobject import AutoObject
 from src.tool_extraction.autotool import AutoTool
 from src.web_app.pager import Pager
+from src.pyfixit import Guide
 from src.web_app.utils import *
 
 logging.basicConfig(level = logging.INFO)
@@ -31,7 +32,7 @@ def runner():
 
 
 def creat_table(category):
-    print('Selected category:', category)
+
     """Receives the category of devices, queries database and generates a list of dicts for steps.
     It also downloads the images of each tool and step in a local folder.
     :rtype: list
@@ -43,16 +44,27 @@ def creat_table(category):
 
     tab = []
 
-    annotated_steps, annotated_sents = find_annotateds(posts, category)
-    object_extractor = AutoObject(posts, category, deep_or_basic)
-    if deep_or_basic == 'basic':
-        sentence_candidates, wn_not_artifacts = object_extractor.codidates_basic(posts, category, annotated_sents)
-
-    tool_extractor = AutoTool(posts, category)
     cursor = docselect(posts, category)
-    print("start")
-    for counter, d in enumerate(cursor):
-        doc = Guide(d, noimage=False)
+    guids = [Guide(d, noimage=False) for d in cursor]
+
+    # categories = category_reader()
+    # for cat in categories[1:]:
+    #     category = cat['Category']
+    #     print('Selected category:', category)
+    #     cursor = list(docselect(posts, category))
+    #     random.Random(4).shuffle(cursor)
+    #     guids = [Guide(d, noimage=False) for d in cursor[:20]]
+    annotated_steps, annotated_sents = find_annotateds(guids)
+    object_extractor = AutoObject(guids, category, deep_or_basic)
+    if deep_or_basic == 'basic':
+        sentence_candidates, wn_not_artifacts = object_extractor.codidates_basic(guids, annotated_sents)
+
+    tool_extractor = AutoTool(guids)
+
+
+    print("start creating the tables")
+    for counter, doc in enumerate(guids):
+        # doc = Guide(d, noimage=False)
         toolbox = []
         for t in doc.toolbox:
             if {"name": t.name} not in toolbox:
@@ -100,15 +112,15 @@ def creat_table(category):
                         os.path.join(steppath, str(step.stepid))) and image_save(step.image):
                     image_save(step.image).save(os.path.join(steppath, str(step.stepid)), "JPEG")
 
-    logging.info('Total steps: {}'.format(len(tab)))
+    print('Total steps: {}'.format(len(tab)))
     if len(tab) > 0:
-        save_obj(tab, os.path.join(STATIC_FOLDER, 'tables/{}_{}'.format(category, deep_or_basic)))
+        save_obj(tab, os.path.join(STATIC_FOLDER, 'tables/{}_{}'.format(categ, deep_or_basic)))
     else:
         logging.error(
             'We could not find any manual that match the input.\n Please check if you have loaded the right '
             'category into the database',
             'error')
-    cursor.close()
+    # cursor.close()
     return tab
 
 
@@ -242,4 +254,4 @@ def cat_select():
 if __name__ == '__main__':
 
     # app.run(host='0.0.0.0', debug=True)
-    creat_table('Mac')
+    creat_table('ALL20')

@@ -78,7 +78,7 @@ class AutoObject(object):
         not_annotateds, annotated_sents = self._seperate_annotated(step.sentences, annotateds)
         return objects, verbs, not_annotateds, annotated_sents, []
 
-    def codidates_basic(self, posts, device_category, annotateds):
+    def codidates_basic(self, posts, annotateds):
         print('extracting basic candidates')
         """
         Given the category of device, it extract object candidates from text, if the text is not
@@ -89,10 +89,10 @@ class AutoObject(object):
         tagger = SequenceTagger.load('chunk')
         extracted = dict()
         non_artifacts_dict = dict()
-        cursor = docselect(posts, device_category)
+        # cursor = docselect(posts, device_category)
         print('Started extracting basic candidates, ...')
-        for d in tqdm(cursor):
-            guid = Guide(d)
+        for guid in tqdm(posts):
+            # guid = Guide(d)
             for step in guid.steps:
                 sents = step.sentences
                 for sent in sents:

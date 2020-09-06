@@ -31,8 +31,7 @@ def docselect(posts, category):
     """
     Receives the category of devices and returns the relevant documents
     """
-    search_filter = {'Ancestors': {"$in": [category]}, 'Title': {'$regex': '^((?!Teardown).)*$'}, "$and": [
-        {"$where": 'this.Steps.length>1'}, {"$where": 'this.Toolbox.length>1'}]}
+    search_filter = {'Ancestors': {"$in": [category]}, "$where": 'this.Toolbox.length>0'}
     postsample = posts.find(search_filter, no_cursor_timeout=True)
     print('{} document are selected'.format(postsample.count()), flush=True)
     return postsample
@@ -195,7 +194,7 @@ def image_save(stepimg):
         return stepimg[0].imagest
 
 
-def find_annotateds(posts, device_category):
+def find_annotateds(cursor):
     """
     finds all the annotated steps in the category.
     it also searches the database and finds the annotated steps. split the step to the sentences and
@@ -205,10 +204,8 @@ def find_annotateds(posts, device_category):
     obj_dic = dict()
     uniques = set()
     annotated_steps = set()
-    cursor = docselect(posts, device_category)
     print('Started finding annotated steps, ...')
-    for doc in tqdm(cursor):
-        guid = Guide(doc)
+    for guid in tqdm(cursor):
         for step in guid.steps:
             if step.wordobject is not None and step.text_raw not in uniques:
                 annotated_steps.add(step.text_raw)
@@ -232,7 +229,7 @@ def find_annotateds(posts, device_category):
                         if sent not in obj_dic:
                             obj_dic[sent] = (_tmpo, _tmpv)
 
-    cursor.close()
+    # cursor.close()
     print('{} annotated steps are found'.format(len(annotated_steps)))
     return annotated_steps, obj_dic
 

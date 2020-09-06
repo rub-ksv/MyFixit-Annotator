@@ -54,7 +54,7 @@ class Line(object):
             if 'http' in word:
                 word = re.sub("^.*http.*", '', word)  # remove the link
             word = re.sub(r'[^\'\w+.!,();/:?-]', '', word)  # non alpha numeric
-            word = re.sub(r"(\d+)(?=[^.\d])", r'\1 ', word)  # 5mm
+            word = re.sub(r"(\d+)(?=[a-zA-Z])", r'\1 ', word)   # 5mm
             word = re.sub(r'new_windowtrue', '', word)  # newwindow
             text += word.lower() + ' '
         # if not text.strip().endswith(('!', '.', '?', ";")) : #no end punctuation

@@ -8,11 +8,11 @@ from src.web_app.utils import docselect
 
 
 class AutoTool(object):
-    def __init__(self, posts, cat):
-        doclist = docselect(posts, cat)
+    def __init__(self, posts):
+        # doclist = docselect(posts, cat)
         alltools = []
-        for guid in doclist:
-            doc = Guide(guid)
+        for doc in posts:
+            # doc = Guide(guid)
             cattools = [t.name for t in doc.toolbox]
             [alltools.append(i) for i in cattools]
         self.sorted_tools = sorted(alltools, key=alltools.count, reverse=True)

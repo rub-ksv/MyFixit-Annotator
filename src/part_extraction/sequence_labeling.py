@@ -98,10 +98,10 @@ def create_column_corpus(posts, device_category):
     if not os.path.exists(os.path.join(root_path, 'part_extraction/data/')):
         os.makedirs(os.path.join(root_path, 'part_extraction/data/'))
     file = open(datapth, 'w')
-    cursor = docselect(posts, device_category)
+    # cursor = docselect(posts, device_category)
     uniques = set()
-    for d in cursor:
-        guid = Guide(d)
+    for guid in posts:
+        # guid = Guide(d)
         for step in guid.steps:
             if step.wordobject and step.text_raw not in uniques:
                 uniques.add(step.text_raw)
