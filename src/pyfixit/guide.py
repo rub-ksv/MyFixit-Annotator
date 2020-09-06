@@ -11,7 +11,7 @@ from src.pyfixit.tool import Tool
 
 class Guide(object):
 
-    def __init__(self, json=None, db=None, gid=None):
+    def __init__(self, json=None, db=None, gid=None, noimage = True):
         if json:
             attributes = json
             self.id = json['Guidid']
@@ -24,7 +24,7 @@ class Guide(object):
         self.url = attributes['Url']
         self.title = attributes['Title']
         self._savetools(attributes['Toolbox'])
-        self.steps = [Step(self.id, step['StepId'], attributes, data=step) for step in attributes['Steps']]
+        self.steps = [Step(self.id, step['StepId'], attributes, data=step, noimage=noimage) for step in attributes['Steps']]
 
 
     def _savetools(self, tools):

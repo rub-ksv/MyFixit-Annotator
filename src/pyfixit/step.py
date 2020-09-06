@@ -32,7 +32,7 @@ class Step(object):
                          objects illustrating the step.
     """
 
-    def __init__(self, guideid, stepid, attributes, data=None):
+    def __init__(self, guideid, stepid, attributes, data=None, noimage=True):
         self.guideid = guideid
         self.stepid = stepid
         self.video = None
@@ -48,8 +48,9 @@ class Step(object):
         self.sentences = sent_tokenize(self.text_clean)
 
         self.orderby = data['Order']
-        for image in data['Images']:
-            self.image.append(Image(image))
+        if not noimage:
+            for image in data['Images']:
+                self.image.append(Image(image))
 
         if 'Tools' in data.keys():
             self.tools_annotation = data['Tools_annotated']

@@ -17,7 +17,7 @@ class Tool(Base):
         self.url = tool['Url']
         self.thumbnail = tool['Thumbnail']
         self.alphanumeric = re.compile('[^\w+.-]')
-        self.name = self.clean_tool(tool['Name'][0])
+        self.name = self.clean_tool(tool['Name'])
         if self.thumbnail:
             # noinspection PyUnresolvedReferences
             self.image = Image.open(urllib.request.urlopen(self.thumbnail))

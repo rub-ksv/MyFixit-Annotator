@@ -11,6 +11,7 @@ from flair.data import Sentence
 from flair.models import SequenceTagger
 from nltk.corpus import wordnet as wn
 from nltk.stem import WordNetLemmatizer
+from tqdm import tqdm
 
 from src.part_extraction.sequence_labeling import train_ner, create_column_corpus, clean_puncs
 from src.web_app.constants import *
@@ -78,6 +79,7 @@ class AutoObject(object):
         return objects, verbs, not_annotateds, annotated_sents, []
 
     def codidates_basic(self, posts, device_category, annotateds):
+        print('extracting basic candidates')
         """
         Given the category of device, it extract object candidates from text, if the text is not
         previously annotated.
@@ -88,7 +90,8 @@ class AutoObject(object):
         extracted = dict()
         non_artifacts_dict = dict()
         cursor = docselect(posts, device_category)
-        for d in cursor:
+        print('Started extracting basic candidates, ...')
+        for d in tqdm(cursor):
             guid = Guide(d)
             for step in guid.steps:
                 sents = step.sentences
@@ -156,6 +159,7 @@ class AutoObject(object):
                                 verbs.append(vtmp)
                         extracted[sent] = (artifacts, verbs)
                         non_artifacts_dict[sent] = non_artifacts
+        print('Extracting basic candidates ended')
         return extracted, non_artifacts_dict
 
     @staticmethod

@@ -6,6 +6,7 @@ import ast
 import pickle as pk
 import re
 from builtins import any as b_any
+from tqdm import tqdm
 
 from PIL import Image
 from flask import flash
@@ -33,6 +34,7 @@ def docselect(posts, category):
     search_filter = {'Ancestors': {"$in": [category]}, 'Title': {'$regex': '^((?!Teardown).)*$'}, "$and": [
         {"$where": 'this.Steps.length>1'}, {"$where": 'this.Toolbox.length>1'}]}
     postsample = posts.find(search_filter, no_cursor_timeout=True)
+    print('{} document are selected'.format(postsample.count()), flush=True)
     return postsample
 
 
@@ -204,7 +206,8 @@ def find_annotateds(posts, device_category):
     uniques = set()
     annotated_steps = set()
     cursor = docselect(posts, device_category)
-    for doc in cursor:
+    print('Started finding annotated steps, ...')
+    for doc in tqdm(cursor):
         guid = Guide(doc)
         for step in guid.steps:
             if step.wordobject is not None and step.text_raw not in uniques:
@@ -230,6 +233,7 @@ def find_annotateds(posts, device_category):
                             obj_dic[sent] = (_tmpo, _tmpv)
 
     cursor.close()
+    print('{} annotated steps are found'.format(len(annotated_steps)))
     return annotated_steps, obj_dic
 
 
